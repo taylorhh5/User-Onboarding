@@ -39,6 +39,9 @@ const MainForm = ({ errors, touched, values, status }) => {
                         name="terms"
                         checked={values.terms}
                     />
+                     {touched.terms && errors.terms &&
+                    (<p>{errors.terms}</p>
+                    )}
 
                 </label>
 
@@ -74,10 +77,11 @@ const FormikMainForm = withFormik({
     },
     validationSchema: Yup.object().shape({
 
-        name: Yup.string().required("Please fill out").max(6, "Must be atleast 6 characters"),
-        email: Yup.string().required("Please fill out"),
-        password: Yup.string().required("Please fill out")
-
+        name: Yup.string().required("Please fill out").min(6, "Must be atleast 6 characters"),
+        email: Yup.string().email("Email not valid").required("Please fill out"),
+        password: Yup.string().min(6).required("Please fill out"),
+        terms: Yup.boolean().oneOf([true],"Please select terms"),
+        
 
 
     }),
